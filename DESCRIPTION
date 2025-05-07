@@ -2,8 +2,8 @@ Package: OhdsiReportGenerator
 Type: Package
 Title: Observational Health Data Sciences and Informatics Report
         Generator
-Version: 1.0.1
-Date: 2025-2-19
+Version: 1.1.0
+Date: 2025-5-06
 Authors@R: c(
   person("Jenna", "Reps", email = "jreps@its.jnj.com", role = c("aut", "cre")),
   person("Anthony", "Sena", email = "sena@ohdsi.org", role = c("aut"))
@@ -16,15 +16,15 @@ URL: https://ohdsi.github.io/OhdsiReportGenerator/,
 BugReports: https://github.com/OHDSI/OhdsiReportGenerator/issues
 VignetteBuilder: knitr
 Depends: R (>= 3.3.0)
-Imports: DatabaseConnector, forestplot, dplyr, ggplot2, ggpubr,
-        htmltools, kableExtra, ParallelLogger, quarto, reactable,
+Imports: CirceR, DatabaseConnector, forestplot, dplyr, ggplot2, ggpubr,
+        gt, htmltools, kableExtra, ParallelLogger, quarto, reactable,
         rlang, rmarkdown, tibble, tidyr
 Suggests: knitr, markdown, ResultModelManager, RSQLite, testthat
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2025-02-24 18:39:29 UTC; jreps
+Packaged: 2025-05-06 17:38:10 UTC; jreps
 Author: Jenna Reps [aut, cre],
   Anthony Sena [aut]
 Repository: CRAN
-Date/Publication: 2025-02-26 13:10:06 UTC
+Date/Publication: 2025-05-07 14:20:04 UTC

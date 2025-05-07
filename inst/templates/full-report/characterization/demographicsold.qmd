@@ -1,0 +1,613 @@
+### Demographics
+
+```{r}
+#| label: characterization_demo_target
+#| echo: false
+#| results: 'asis'
+
+ if(includeCharacterization){
+# TARGET
+targetIds <- unique(cohortDefinitions$cohortDefinitionId[cohortDefinitions$subsetParent == params$targetId])
+
+targetIdsDemo <- unique(targetBinaryOfInterest %>% 
+                          dplyr::filter(.data$targetCohortId %in% targetIds) %>%
+                          dplyr::select("targetCohortId","minPriorObservation"))
+
+if(nrow(targetIdsDemo) >0){
+  cat('\n\n#### Exposure Target \n\n')
+  for(tId in 1:nrow(targetIdsDemo)){
+    # add the target age/sex/race/ethnicity
+    dataC <- targetContinuousOfInterest %>% 
+      dplyr::filter(.data$targetCohortId == !!targetIdsDemo$targetCohortId[tId]) %>%
+      dplyr::filter(.data$minPriorObservation == !!targetIdsDemo$minPriorObservation[tId]) %>%
+      dplyr::select(-c("p10Value", "p25Value", "p75Value", "p90Value")) %>%
+      tidyr::pivot_longer(
+        cols = c("minValue","maxValue", "averageValue", "standardDeviation", "medianValue",
+        )
+      ) %>%
+      dplyr:: mutate(
+        covariateName = paste0(.data$covariateName, ' (', .data$name, ')'),
+        averageValue = .data$value
+      ) %>%
+      dplyr::select(-"name", -"value") %>%
+      dplyr::rowwise() %>%
+      dplyr:: mutate(
+        type = if(.data$covariateId == 1002){
+          'Age'
+        } else if(.data$covariateId == 1008){
+          'Prior Observation'
+        } else if(.data$covariateId == 1009){
+          'Post Observation'
+        } else if(.data$covariateId == 1010){
+          'Between Observation'
+        }
+      ) %>%
+      dplyr::select("databaseName","covariateName","averageValue", "type") 
+    
+    
+    dataB <- targetBinaryOfInterest %>% 
+      dplyr::filter(.data$targetCohortId == !!targetIdsDemo$targetCohortId[tId]) %>%
+      dplyr::filter(.data$minPriorObservation == !!targetIdsDemo$minPriorObservation[tId]) %>%
+      dplyr::select("databaseName","covariateName","rawAverage") %>%
+      dplyr::mutate(
+        averageValue = .data$rawAverage
+      ) %>%
+      dplyr::select(-"rawAverage")  
+    
+    dataB$type <- rep('Age Group', nrow(dataB))
+    genderId <- grep('gender = ', dataB$covariateName)
+    if(length(genderId) > 0){
+      dataB$type[genderId] <- 'Gender'
+    }
+    raceId <- grep('race = ', dataB$covariateName)
+    if(length(raceId) > 0){
+      dataB$type[raceId] <- 'Race'
+    }
+    ethnicityId <- grep('ethnicity = ', dataB$covariateName)
+    if(length(ethnicityId ) > 0){
+      dataB$type[ethnicityId ] <- 'Ethnicity'
+    }
+    
+    # group by type and order by name
+    data <- dataC %>%
+      dplyr::bind_rows(dataB) 
+    
+    databaseCols <- unique(data$databaseName)
+    
+    data <- tidyr::pivot_wider(
+      data = data,
+      id_cols =  c("covariateName", "type"),
+      names_from = "databaseName", 
+      values_from = "averageValue"
+    ) %>%
+      dplyr::group_by(.data$type) %>%
+      dplyr::arrange(.data$covariateName)
+    
+    # display
+    print(htmltools::tagList(
+      data %>%  
+        gt::gt() %>%
+        gt::fmt_number(
+          columns = databaseCols, # defined above 
+          decimals = 2
+        ) %>%
+        gt::cols_label(
+          covariateName = "Covariate"
+        ) %>%
+        gt::tab_options(
+          heading.align = "left",
+          data_row.padding = gt::px(7),
+          column_labels.font.size = gt::px(12),
+          column_labels.background.color = "#EB1800",
+          column_labels.font.weight = "bold",
+          row_group.background.color = "#D3D3D3",
+          row_group.font.weight = "bold"
+        ) %>%
+        gt::tab_style(
+          style = gt::cell_text(
+            color = "darkgrey",
+            font = gt::google_font("Source Sans Pro"),
+            transform = "uppercase"
+          ),
+          locations = gt::cells_column_labels(gt::everything())
+        ) %>%
+        gt::tab_header(
+          title = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == targetIdsDemo$targetCohortId[tId]], ' - ' , cohortDefinitions$subsetText[cohortDefinitions$cohortDefinitionId == targetIdsDemo$targetCohortId[tId]], ' with min prior obs ', targetIdsDemo$minPriorObservation[tId], ' days')
+        )
+    ))
+    
+  }
+}
+}
+
+```
+
+```{r}
+#| label: characterization_demo_outcome
+#| echo: false
+#| results: 'asis'
+
+if(includeCharacterization){
+  
+cIds <- unique(cohortDefinitions$cohortDefinitionId[cohortDefinitions$subsetParent %in% params$outcomeIds])
+
+cIdsDemo <- unique(targetBinaryOfInterest %>% 
+                     dplyr::filter(.data$targetCohortId %in% cIds) %>%
+                     dplyr::select("targetCohortId","minPriorObservation"))
+
+if(nrow(cIdsDemo) >0){
+  cat('\n\n#### Outcome/s \n\n')
+  for(tId in 1:nrow(cIdsDemo)){
+    # add the target age/sex/race/ethnicity
+    dataC <- targetContinuousOfInterest %>% 
+      dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+      dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+      dplyr::select(-c("p10Value", "p25Value", "p75Value", "p90Value")) %>%
+      tidyr::pivot_longer(
+        cols = c("minValue","maxValue", "averageValue", "standardDeviation", "medianValue",
+        )
+      ) %>%
+      dplyr:: mutate(
+        covariateName = paste0(.data$covariateName, ' (', .data$name, ')'),
+        averageValue = .data$value
+      ) %>%
+      dplyr::select(-"name", -"value") %>%
+      dplyr::rowwise() %>%
+      dplyr:: mutate(
+        type = if(.data$covariateId == 1002){
+          'Age'
+        } else if(.data$covariateId == 1008){
+          'Prior Observation'
+        } else if(.data$covariateId == 1009){
+          'Post Observation'
+        } else if(.data$covariateId == 1010){
+          'Between Observation'
+        }
+      ) %>%
+      dplyr::select("databaseName","covariateName","averageValue", "type") 
+    
+    
+    dataB <- targetBinaryOfInterest %>% 
+      dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+      dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+      dplyr::select("databaseName","covariateName","rawAverage") %>%
+      dplyr::mutate(
+        averageValue = .data$rawAverage
+      ) %>%
+      dplyr::select(-"rawAverage")  
+    
+    dataB$type <- rep('Age Group', nrow(dataB))
+    genderId <- grep('gender = ', dataB$covariateName)
+    if(length(genderId) > 0){
+      dataB$type[genderId] <- 'Gender'
+    }
+    raceId <- grep('race = ', dataB$covariateName)
+    if(length(raceId) > 0){
+      dataB$type[raceId] <- 'Race'
+    }
+    ethnicityId <- grep('ethnicity = ', dataB$covariateName)
+    if(length(ethnicityId ) > 0){
+      dataB$type[ethnicityId ] <- 'Ethnicity'
+    }
+    
+    # group by type and order by name
+    data <- dataC %>%
+      dplyr::bind_rows(dataB) 
+    
+    databaseCols <- unique(data$databaseName)
+    
+    data <- tidyr::pivot_wider(
+      data = data,
+      id_cols =  c("covariateName", "type"),
+      names_from = "databaseName", 
+      values_from = "averageValue"
+    ) %>%
+      dplyr::group_by(.data$type) %>%
+      dplyr::arrange(.data$covariateName)
+    
+    # display
+    print(htmltools::tagList(
+      data %>%  
+        gt::gt() %>%
+        gt::fmt_number(
+          columns = databaseCols, # defined above 
+          decimals = 2
+        ) %>%
+        gt::cols_label(
+          covariateName = "Covariate"
+        ) %>%
+        gt::tab_options(
+          heading.align = "left",
+          data_row.padding = gt::px(7),
+          column_labels.font.size = gt::px(12),
+          column_labels.background.color = "#EB1800",
+          column_labels.font.weight = "bold",
+          row_group.background.color = "#D3D3D3",
+          row_group.font.weight = "bold"
+        ) %>%
+        gt::tab_style(
+          style = gt::cell_text(
+            color = "darkgrey",
+            font = gt::google_font("Source Sans Pro"),
+            transform = "uppercase"
+          ),
+          locations = gt::cells_column_labels(gt::everything())
+        ) %>%
+        gt::tab_header(
+          title = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' - ' , cohortDefinitions$subsetText[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' with min prior obs ', cIdsDemo$minPriorObservation[tId], ' days')
+        )
+    ))
+    
+  }
+}
+
+}
+
+```
+
+
+```{r}
+#| label: characterization_demo_indication
+#| echo: false
+#| results: 'asis'
+
+if(includeCharacterization){
+
+if(sum(indicationIds == '') != length(indicationIds)){
+  # Indication
+  cIds <- unique(cohortDefinitions$cohortDefinitionId[cohortDefinitions$subsetParent %in% indicationIds])
+  
+  cIdsDemo <- unique(targetBinaryOfInterest %>% 
+                       dplyr::filter(.data$targetCohortId %in% cIds) %>%
+                       dplyr::select("targetCohortId","minPriorObservation"))
+  
+  if(nrow(cIdsDemo) >0){
+    cat('\n\n#### Indication/s \n\n')
+    for(tId in 1:nrow(cIdsDemo)){
+      # add the target age/sex/race/ethnicity
+      dataC <- targetContinuousOfInterest %>% 
+        dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+        dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+        dplyr::select(-c("p10Value", "p25Value", "p75Value", "p90Value")) %>%
+        tidyr::pivot_longer(
+          cols = c("minValue","maxValue", "averageValue", "standardDeviation", "medianValue",
+          )
+        ) %>%
+        dplyr:: mutate(
+          covariateName = paste0(.data$covariateName, ' (', .data$name, ')'),
+          averageValue = .data$value
+        ) %>%
+        dplyr::select(-"name", -"value") %>%
+        dplyr::rowwise() %>%
+        dplyr:: mutate(
+          type = if(.data$covariateId == 1002){
+            'Age'
+          } else if(.data$covariateId == 1008){
+            'Prior Observation'
+          } else if(.data$covariateId == 1009){
+            'Post Observation'
+          } else if(.data$covariateId == 1010){
+            'Between Observation'
+          }
+        ) %>%
+        dplyr::select("databaseName","covariateName","averageValue", "type") 
+      
+      
+      dataB <- targetBinaryOfInterest %>% 
+        dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+        dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+        dplyr::select("databaseName","covariateName","rawAverage") %>%
+        dplyr::mutate(
+          averageValue = .data$rawAverage
+        ) %>%
+        dplyr::select(-"rawAverage")  
+      
+      dataB$type <- rep('Age Group', nrow(dataB))
+      genderId <- grep('gender = ', dataB$covariateName)
+      if(length(genderId) > 0){
+        dataB$type[genderId] <- 'Gender'
+      }
+      raceId <- grep('race = ', dataB$covariateName)
+      if(length(raceId) > 0){
+        dataB$type[raceId] <- 'Race'
+      }
+      ethnicityId <- grep('ethnicity = ', dataB$covariateName)
+      if(length(ethnicityId ) > 0){
+        dataB$type[ethnicityId ] <- 'Ethnicity'
+      }
+      
+      # group by type and order by name
+      data <- dataC %>%
+        dplyr::bind_rows(dataB) 
+      
+      databaseCols <- unique(data$databaseName)
+      
+      data <- tidyr::pivot_wider(
+        data = data,
+        id_cols =  c("covariateName", "type"),
+        names_from = "databaseName", 
+        values_from = "averageValue"
+      ) %>%
+        dplyr::group_by(.data$type) %>%
+        dplyr::arrange(.data$covariateName)
+      
+      # display
+      print(htmltools::tagList(
+        data %>%  
+          gt::gt() %>%
+          gt::fmt_number(
+            columns = databaseCols, # defined above 
+            decimals = 2
+          ) %>%
+          gt::cols_label(
+            covariateName = "Covariate"
+          ) %>%
+          gt::tab_options(
+            heading.align = "left",
+            data_row.padding = gt::px(7),
+            column_labels.font.size = gt::px(12),
+            column_labels.background.color = "#EB1800",
+            column_labels.font.weight = "bold",
+            row_group.background.color = "#D3D3D3",
+            row_group.font.weight = "bold"
+          ) %>%
+          gt::tab_style(
+            style = gt::cell_text(
+              color = "darkgrey",
+              font = gt::google_font("Source Sans Pro"),
+              transform = "uppercase"
+            ),
+            locations = gt::cells_column_labels(gt::everything())
+          ) %>%
+          gt::tab_header(
+            title = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' - ' , cohortDefinitions$subsetText[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' with min prior obs ', cIdsDemo$minPriorObservation[tId], ' days')
+          )
+      ))
+      
+    }
+  }
+} # if not null indication
+  
+}
+
+```
+
+```{r}
+#| label: characterization_demo_comp
+#| echo: false
+#| results: 'asis'
+
+if(includeCharacterization){
+
+if(!is.null(comparatorIds)){
+  # Indication
+  cIds <- unique(cohortDefinitions$cohortDefinitionId[cohortDefinitions$subsetParent %in% comparatorIds])
+  
+  cIdsDemo <- unique(targetBinaryOfInterest %>% 
+                       dplyr::filter(.data$targetCohortId %in% cIds) %>%
+                       dplyr::select("targetCohortId","minPriorObservation"))
+  
+  if(nrow(cIdsDemo) >0){
+    cat('\n\n#### Comparator/s \n\n')
+    for(tId in 1:nrow(cIdsDemo)){
+      # add the target age/sex/race/ethnicity
+      dataC <- targetContinuousOfInterest %>% 
+        dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+        dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+        dplyr::select(-c("p10Value", "p25Value", "p75Value", "p90Value")) %>%
+        tidyr::pivot_longer(
+          cols = c("minValue","maxValue", "averageValue", "standardDeviation", "medianValue",
+          )
+        ) %>%
+        dplyr:: mutate(
+          covariateName = paste0(.data$covariateName, ' (', .data$name, ')'),
+          averageValue = .data$value
+        ) %>%
+        dplyr::select(-"name", -"value") %>%
+        dplyr::rowwise() %>%
+        dplyr:: mutate(
+          type = if(.data$covariateId == 1002){
+            'Age'
+          } else if(.data$covariateId == 1008){
+            'Prior Observation'
+          } else if(.data$covariateId == 1009){
+            'Post Observation'
+          } else if(.data$covariateId == 1010){
+            'Between Observation'
+          }
+        ) %>%
+        dplyr::select("databaseName","covariateName","averageValue", "type") 
+      
+      
+      dataB <- targetBinaryOfInterest %>% 
+        dplyr::filter(.data$targetCohortId == !!cIdsDemo$targetCohortId[tId]) %>%
+        dplyr::filter(.data$minPriorObservation == !!cIdsDemo$minPriorObservation[tId]) %>%
+        dplyr::select("databaseName","covariateName","rawAverage") %>%
+        dplyr::mutate(
+          averageValue = .data$rawAverage
+        ) %>%
+        dplyr::select(-"rawAverage")  
+      
+      dataB$type <- rep('Age Group', nrow(dataB))
+      genderId <- grep('gender = ', dataB$covariateName)
+      if(length(genderId) > 0){
+        dataB$type[genderId] <- 'Gender'
+      }
+      raceId <- grep('race = ', dataB$covariateName)
+      if(length(raceId) > 0){
+        dataB$type[raceId] <- 'Race'
+      }
+      ethnicityId <- grep('ethnicity = ', dataB$covariateName)
+      if(length(ethnicityId ) > 0){
+        dataB$type[ethnicityId ] <- 'Ethnicity'
+      }
+      
+      # group by type and order by name
+      data <- dataC %>%
+        dplyr::bind_rows(dataB) 
+      
+      databaseCols <- unique(data$databaseName)
+      
+      data <- tidyr::pivot_wider(
+        data = data,
+        id_cols =  c("covariateName", "type"),
+        names_from = "databaseName", 
+        values_from = "averageValue"
+      ) %>%
+        dplyr::group_by(.data$type) %>%
+        dplyr::arrange(.data$covariateName)
+      
+      # display
+      print(htmltools::tagList(
+        data %>%  
+          gt::gt() %>%
+          gt::fmt_number(
+            columns = databaseCols, # defined above 
+            decimals = 2
+          ) %>%
+          gt::cols_label(
+            covariateName = "Covariate"
+          ) %>%
+          gt::tab_options(
+            heading.align = "left",
+            data_row.padding = gt::px(7),
+            column_labels.font.size = gt::px(12),
+            column_labels.background.color = "#EB1800",
+            column_labels.font.weight = "bold",
+            row_group.background.color = "#D3D3D3",
+            row_group.font.weight = "bold"
+          ) %>%
+          gt::tab_style(
+            style = gt::cell_text(
+              color = "darkgrey",
+              font = gt::google_font("Source Sans Pro"),
+              transform = "uppercase"
+            ),
+            locations = gt::cells_column_labels(gt::everything())
+          ) %>%
+          gt::tab_header(
+            title = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' - ' , cohortDefinitions$subsetText[cohortDefinitions$cohortDefinitionId == cIdsDemo$targetCohortId[tId]], ' with min prior obs ', cIdsDemo$minPriorObservation[tId], ' days')
+          )
+      ))
+      
+    }
+  }
+} # if not null indication
+  
+}
+
+
+     if(F){ # TODO finish this
+        # print the continuous age results for the setting
+        tempCCI <- caseContinuousOfInterest %>%
+          dplyr::select("databaseName","targetName","targetCohortId",
+                        "outcomeName","outcomeCohortId","minPriorObservation",
+                        "outcomeWashoutDays","covariateName","covariateId",
+                        "countValue","averageValue","standardDeviation"
+          ) %>%
+          dplyr::rename(
+            caseAverage = .data$averageValue,
+            caseCount = .data$countValue,
+            caseStandardDeviation = .data$standardDeviation
+          ) %>%
+          dplyr::filter(
+            .data$targetCohortId == !!charIdsOfInt$targetCohortId[cind], 
+            .data$outcomeCohortId == !!charIdsOfInt$outcomeCohortId[cind],
+            .data$minPriorObservation == !!minPriorObservation,
+            .data$outcomeWashoutDays == !!outcomeWashoutDays,
+            .data$tar == !!tar
+          )
+        
+        tempTCI <- targetContinuousOfInterest %>%
+          dplyr::select("databaseName","targetName","targetCohortId",
+                        "minPriorObservation","covariateName","covariateId",
+                        "countValue","averageValue","standardDeviation"
+          ) %>%
+          dplyr::rename(
+            targetAverage = .data$averageValue,
+            targetCount = .data$countValue,
+            targetStandardDeviation = .data$standardDeviation
+          ) %>%
+          dplyr::filter(
+            .data$targetCohortId == !!charIdsOfInt$targetCohortId[cind], 
+            .data$minPriorObservation == !!minPriorObservation
+          )
+        
+        ageCont <- tempTCI %>%
+          dplyr::left_join(
+            y = tempCCI, 
+            by = c('databaseName', 
+                   "targetName","targetCohortId",
+                   "minPriorObservation",
+                   'covariateName', 'covariateId')
+          ) %>%
+          tidyr::replace_na(list(
+            riskWindowStart = riskWindowStart, 
+            riskWindowEnd = riskWindowEnd,
+            startAnchor = startAnchor,
+            endAnchor = endAnchor,
+            caseCount = 0,
+            caseAverage = 0
+          )) %>%
+          dplyr::mutate(
+            meanDiff = .data$caseAverage - .data$targetAverage
+          ) %>% 
+          dplyr::mutate(
+            SMD = .data$meanDiff/sqrt((.data$caseStandardDeviation^2 + .data$targetStandardDeviation^2)/2),
+            absSMD = abs(.data$meanDiff/sqrt((.data$caseStandardDeviation^2 + .data$targetStandardDeviation^2)/2))
+          )
+        
+        # print the age details
+        print(htmltools::tagList(
+          ageCont %>%
+            dplyr::select("databaseName", "covariateName", 
+                          "caseCount", "caseAverage",
+                          "targetCount", "targetAverage",
+                          "SMD", "absSMD"
+            ) %>%
+            dplyr::group_by(
+              .data$covariateName
+            ) %>%  
+            gt::gt() %>%
+            gt::fmt_percent(
+              columns = c("caseAverage","targetAverage"), 
+              decimals = 2
+            ) %>%
+            gt::fmt_number(
+              columns = c("SMD", "absSMD"), 
+              decimals = 2
+            ) %>%
+            gt::fmt_integer(
+              columns = c("caseCount", "targetCount")
+            ) %>%
+            gt::cols_label(
+              databaseName = 'Database',
+              covariateName = "Covariate"
+            ) %>%
+            gt::tab_options(
+              heading.align = "left",
+              data_row.padding = gt::px(7),
+              column_labels.font.size = gt::px(12),
+              column_labels.background.color = "#EB1800",
+              column_labels.font.weight = "bold",
+              row_group.background.color = "#D3D3D3",
+              row_group.font.weight = "bold"
+            ) %>%
+            gt::tab_style(
+              style = gt::cell_text(
+                color = "darkgrey",
+                font = gt::google_font("Source Sans Pro"),
+                transform = "uppercase"
+              ),
+              locations = gt::cells_column_labels(gt::everything())
+            ) %>%
+            gt::tab_header(
+              title = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == charIdsOfInt$outcomeCohortId[cind]], ' during ', tar, ' with washout ', outcomeWashoutDays, ' days'), 
+              subtitle = paste0(cohortDefinitions$friendlyName[cohortDefinitions$cohortDefinitionId == charIdsOfInt$targetCohortId[cind]], ' - ' , cohortDefinitions$subsetText[cohortDefinitions$cohortDefinitionId == charIdsOfInt$targetCohortId[cind]], ' with min prior obs ', minPriorObservation, ' days')
+            )
+        ))
+        
+        
+      }
+
+```

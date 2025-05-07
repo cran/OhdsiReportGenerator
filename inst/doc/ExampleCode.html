@@ -142,7 +142,7 @@ section.footnotes::before {
 <div class="frontmatter">
 <div class="title"><h1>Using Observational Health Data Sciences and Informatics (OHDSI) Report Generator</h1></div>
 <div class="author"><h2>Jenna Reps, Anthony Sena</h2></div>
-<div class="date"><h3>2025-02-24</h3></div>
+<div class="date"><h3>2025-05-06</h3></div>
 </div>
 <div class="body">
 <h1 id="using-the-ohdsireportgenerator-package">Using the OhdsiReportGenerator Package</h1>
@@ -751,6 +751,7 @@ knitr::kable(
 <th align="left">startAnchor</th>
 <th align="left">endAnchor</th>
 <th align="left">covariateName</th>
+<th align="right">covariateId</th>
 <th align="right">caseCount</th>
 <th align="right">caseAverage</th>
 <th align="right">nonCaseCount</th>
@@ -773,6 +774,7 @@ knitr::kable(
 <td align="left">cohort start</td>
 <td align="left">cohort end</td>
 <td align="left">age group:  30 -  34</td>
+<td align="right">6003</td>
 <td align="right">35</td>
 <td align="right">0.0985916</td>
 <td align="right">171</td>
@@ -793,6 +795,7 @@ knitr::kable(
 <td align="left">cohort start</td>
 <td align="left">cohort end</td>
 <td align="left">age group:  35 -  39</td>
+<td align="right">7003</td>
 <td align="right">177</td>
 <td align="right">0.4985915</td>
 <td align="right">685</td>
@@ -813,6 +816,7 @@ knitr::kable(
 <td align="left">cohort start</td>
 <td align="left">cohort end</td>
 <td align="left">age group:  40 -  44</td>
+<td align="right">8003</td>
 <td align="right">129</td>
 <td align="right">0.3633803</td>
 <td align="right">531</td>
@@ -833,6 +837,7 @@ knitr::kable(
 <td align="left">cohort start</td>
 <td align="left">cohort end</td>
 <td align="left">age group:  45 -  49</td>
+<td align="right">9003</td>
 <td align="right">14</td>
 <td align="right">0.0394366</td>
 <td align="right">58</td>
@@ -878,6 +883,10 @@ knitr::kable(
 <th align="left">outcomeName</th>
 <th align="right">outcomeCohortId</th>
 <th align="right">outcomeWashoutDays</th>
+<th align="right">riskWindowStart</th>
+<th align="right">riskWindowEnd</th>
+<th align="left">startAnchor</th>
+<th align="left">endAnchor</th>
 <th align="right">caseCountValue</th>
 <th align="right">caseMinValue</th>
 <th align="right">caseMaxValue</th>
@@ -913,6 +922,10 @@ knitr::kable(
 <td align="left">GI bleed</td>
 <td align="right">3</td>
 <td align="right">365</td>
+<td align="right">1</td>
+<td align="right">365</td>
+<td align="left">cohort start</td>
+<td align="left">cohort end</td>
 <td align="right">355</td>
 <td align="right">32</td>
 <td align="right">46</td>
@@ -946,6 +959,10 @@ knitr::kable(
 <td align="left">GI bleed</td>
 <td align="right">3</td>
 <td align="right">365</td>
+<td align="right">1</td>
+<td align="right">365</td>
+<td align="left">cohort start</td>
+<td align="left">cohort end</td>
 <td align="right">355</td>
 <td align="right">10</td>
 <td align="right">27390</td>
@@ -979,6 +996,10 @@ knitr::kable(
 <td align="left">GI bleed</td>
 <td align="right">3</td>
 <td align="right">365</td>
+<td align="right">1</td>
+<td align="right">365</td>
+<td align="left">cohort start</td>
+<td align="left">cohort end</td>
 <td align="right">355</td>
 <td align="right">11550</td>
 <td align="right">16805</td>
@@ -1012,6 +1033,10 @@ knitr::kable(
 <td align="left">GI bleed</td>
 <td align="right">3</td>
 <td align="right">365</td>
+<td align="right">1</td>
+<td align="right">365</td>
+<td align="left">cohort start</td>
+<td align="left">cohort end</td>
 <td align="right">355</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -1045,6 +1070,10 @@ knitr::kable(
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
