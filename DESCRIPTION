@@ -2,8 +2,8 @@ Package: OhdsiReportGenerator
 Type: Package
 Title: Observational Health Data Sciences and Informatics Report
         Generator
-Version: 1.1.0
-Date: 2025-5-06
+Version: 1.1.1
+Date: 2025-5-08
 Authors@R: c(
   person("Jenna", "Reps", email = "jreps@its.jnj.com", role = c("aut", "cre")),
   person("Anthony", "Sena", email = "sena@ohdsi.org", role = c("aut"))
@@ -23,8 +23,8 @@ Suggests: knitr, markdown, ResultModelManager, RSQLite, testthat
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2025-05-06 17:38:10 UTC; jreps
+Packaged: 2025-05-22 19:14:23 UTC; jreps
 Author: Jenna Reps [aut, cre],
   Anthony Sena [aut]
 Repository: CRAN
-Date/Publication: 2025-05-07 14:20:04 UTC
+Date/Publication: 2025-05-22 20:00:08 UTC
