@@ -11,7 +11,8 @@ getSccsMetaEstimation(
   cgTablePrefix = "cg_",
   esTablePrefix = "es_",
   targetIds = NULL,
-  outcomeIds = NULL
+  outcomeIds = NULL,
+  includeOneSidedP = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ getSccsMetaEstimation(
 \item{targetIds}{A vector of integers corresponding to the target cohort IDs}
 
 \item{outcomeIds}{A vector of integers corresponding to the outcome cohort IDs}
+
+\item{includeOneSidedP}{This lets you extract from older results that do not have the one sided p by setting this to FALSE}
 }
 \value{
 Returns a data.frame with the columns:
@@ -84,8 +87,19 @@ Other Estimation:
 \code{\link{getCMEstimation}()},
 \code{\link{getCmDiagnosticsData}()},
 \code{\link{getCmMetaEstimation}()},
+\code{\link{getCmNegativeControlEstimates}()},
+\code{\link{getCmOutcomes}()},
+\code{\link{getCmPropensityModel}()},
+\code{\link{getCmTable}()},
+\code{\link{getCmTargets}()},
 \code{\link{getSccsDiagnosticsData}()},
 \code{\link{getSccsEstimation}()},
+\code{\link{getSccsModel}()},
+\code{\link{getSccsNegativeControlEstimates}()},
+\code{\link{getSccsOutcomes}()},
+\code{\link{getSccsTable}()},
+\code{\link{getSccsTargets}()},
+\code{\link{getSccsTimeToEvent}()},
 \code{\link{plotCmEstimates}()},
 \code{\link{plotSccsEstimates}()}
 }

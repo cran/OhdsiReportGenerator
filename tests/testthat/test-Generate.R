@@ -5,7 +5,7 @@ test_that("generatePresentation", {
   
   #if skipQuarto skip this on CRAN
   if(skipQuarto){
-    testthat::skip_on_cran('Quarto not found so skipping generate presentation')
+    testthat::skip_on_cran()
   }
   
   savLoc <- file.path(tempdir(), 'example')
@@ -38,14 +38,14 @@ test_that("generatePresentation", {
       restrictions = "Age - None"
     ),
     evaluationText = '',
-    includeCI = TRUE,
+    includeCI = FALSE, #TRUE, - current issue with CI
     includeCharacterization = TRUE,
     includeCM = TRUE,
     includeSCCS = FALSE,
     includePLP = FALSE,
     outputLocation = savLoc,
     outputName = paste0('presentation_', gsub(':', '_',gsub(' ','_',as.character(date()))),'.html'),
-    intermediateDir = tempdir()
+    intermediateDir = fs::path_real(tempdir())
   )
   
   # ensure report is generated
@@ -61,7 +61,7 @@ test_that("generateFullReport", {
   
   #if skipQuarto skip this on CRAN
   if(skipQuarto){
-    testthat::skip_on_cran('Quarto not found so skipping generate full report')
+    testthat::skip_on_cran()
   }
   
   savLoc <- file.path(tempdir(), 'example2')

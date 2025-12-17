@@ -9,6 +9,7 @@ getPredictionTopPredictors(
   schema,
   plpTablePrefix = "plp_",
   cgTablePrefix = "cg_",
+  databaseTable = "database_meta_data",
   targetIds = NULL,
   outcomeIds = NULL,
   numberPredictors = 100
@@ -22,6 +23,8 @@ getPredictionTopPredictors(
 \item{plpTablePrefix}{The prefix used for the patient level prediction results tables}
 
 \item{cgTablePrefix}{The prefix used for the cohort generator results tables}
+
+\item{databaseTable}{The database table name}
 
 \item{targetIds}{A vector of integers corresponding to the target cohort IDs}
 
@@ -76,13 +79,19 @@ topPreds <- getPredictionTopPredictors(
 }
 \seealso{
 Other Prediction: 
+\code{\link{getFullPredictionPerformances}()},
+\code{\link{getPredictionAggregateTopPredictors}()},
 \code{\link{getPredictionCohorts}()},
+\code{\link{getPredictionCovariates}()},
 \code{\link{getPredictionDiagnosticTable}()},
 \code{\link{getPredictionDiagnostics}()},
 \code{\link{getPredictionHyperParamSearch}()},
 \code{\link{getPredictionIntercept}()},
+\code{\link{getPredictionLift}()},
 \code{\link{getPredictionModelDesigns}()},
+\code{\link{getPredictionOutcomes}()},
 \code{\link{getPredictionPerformanceTable}()},
-\code{\link{getPredictionPerformances}()}
+\code{\link{getPredictionPerformances}()},
+\code{\link{getPredictionTargets}()}
 }
 \concept{Prediction}

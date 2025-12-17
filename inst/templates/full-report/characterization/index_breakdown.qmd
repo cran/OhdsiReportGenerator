@@ -37,18 +37,19 @@ for(i in 1:length(params$outcomeIds)){
       )))
     }
   }
-  
+
   for(j in 1:length(targetIds)){
+    
     res <- OhdsiReportGenerator::getBinaryCaseSeries(
       connectionHandler = connectionHandler, 
       schema = params$schema, 
       targetId = targetIds[j], 
-      outcomeId = params$outcomeIds[i] 
-    ) %>%
-      dplyr::filter(.data$averageValue >= 1/100)
-    # add the TAR
-    
-    if(nrow(res)>0){
+      outcomeId = params$outcomeIds[i],
+      conceptIds = unique(conceptsInOutcome),
+      minVal = 0.01
+    )
+
+        if(nrow(res)>0){
     
     res <- OhdsiReportGenerator::addTarColumn(res) 
     
@@ -64,9 +65,7 @@ for(i in 1:length(params$outcomeIds)){
     counts <- OhdsiReportGenerator::addTarColumn(counts) %>%
       dplyr::select("databaseName", "personCount", "tar")
     
-    index <- res %>% dplyr::filter(
-      floor(.data$covariateId/1000) %in%conceptsInOutcome
-    ) %>%
+    index <- res %>% 
       dplyr::filter(.data$type == 'During') %>%
       dplyr::select("databaseName", "targetCohortId", "outcomeCohortId",
                     "covariateName", 
@@ -97,8 +96,8 @@ ibOutcome <- unique(index$friendlyNameOutcome)
 
 # now we add the N to the databaseName we need to loop over TAR
 for(ibTar in unique(index$tar)){
-  
-index <- tidyr::pivot_wider(
+
+indexTar <- tidyr::pivot_wider(
   data = index %>%
     dplyr::filter(.data$tar == !!ibTar) %>% 
     dplyr::select(-"tar") %>%
@@ -123,16 +122,16 @@ index <- tidyr::pivot_wider(
 
 # display
 
-boxName <- paste0('Frequency of ',ibOutcome,' concept codes when the patient exposed to ', index$friendlyNameTarget[1], ' ', index$subsetTextTarget[1],' has the outcome during ', ibTar)
+boxName <- paste0('Frequency of ',ibOutcome,' concept codes when the patient exposed to ', indexTar$friendlyNameTarget[1], ' ', indexTar$subsetTextTarget[1],' has the outcome during ', ibTar)
 
   cat('\n\n::: {.callout-note collapse="true"}')
   cat(paste0("\n# ",boxName, '\n\n'))
       
 print(htmltools::tagList(
-  index  %>%  
+  indexTar  %>%  
     gt::gt() %>%
     gt::fmt_percent(
-      columns = colnames(index)[! colnames(index) %in% c("covariateName","friendlyNameTarget","subsetTextTarget", "friendlyNameOutcome", "tar")],
+      columns = colnames(indexTar)[! colnames(indexTar) %in% c("covariateName","friendlyNameTarget","subsetTextTarget", "friendlyNameOutcome", "tar")],
       decimals = 2
     ) %>%
     gt::cols_label(

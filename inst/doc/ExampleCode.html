@@ -115,7 +115,7 @@ section.footnotes {
 <div class="frontmatter">
 <div class="title"><h1>Using Observational Health Data Sciences and Informatics (OHDSI) Report Generator</h1></div>
 <div class="author"><h2>Jenna Reps, Anthony Sena</h2></div>
-<div class="date"><h3>2025-05-22</h3></div>
+<div class="date"><h3>2025-12-17</h3></div>
 </div>
 <div class="body">
 <h1 id="chp:using-the-ohdsireportgenerator-package">Using the OhdsiReportGenerator Package</h1>
@@ -163,6 +163,7 @@ knitr::kable(
 <th align="right">subsetParent</th>
 <th align="right">isSubset</th>
 <th align="right">subsetDefinitionId</th>
+<th align="left">subsetDefinitionJson</th>
 </tr>
 </thead>
 <tbody>
@@ -173,6 +174,7 @@ knitr::kable(
 <td align="right">1</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr>
 <td align="right">2</td>
@@ -181,6 +183,7 @@ knitr::kable(
 <td align="right">2</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr>
 <td align="right">3</td>
@@ -189,6 +192,7 @@ knitr::kable(
 <td align="right">3</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr>
 <td align="right">1001</td>
@@ -197,49 +201,146 @@ knitr::kable(
 <td align="right">1</td>
 <td align="right">NA</td>
 <td align="right">1</td>
+<td align="left">{</td>
 </tr>
 <tr>
-<td align="right">2001</td>
-<td align="left">Diclofenac - age 18 to 64 Age 18 to 64</td>
-<td align="left">NA</td>
-<td align="right">2</td>
-<td align="right">NA</td>
-<td align="right">1</td>
+<td align="right">“name”: “age 18 to 64”,</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="right">1002</td>
-<td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">2</td>
+<td align="right">“definitionId”: 1,</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="right">2002</td>
-<td align="left">Diclofenac - first event with 365 prior obs first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">2</td>
-<td align="right">NA</td>
-<td align="right">2</td>
-</tr>
-<tr>
-<td align="right">1003</td>
-<td align="left">Celecoxib - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">3</td>
-</tr>
-<tr>
-<td align="right">2003</td>
-<td align="left">Diclofenac - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">2</td>
-<td align="right">NA</td>
-<td align="right">3</td>
+<td align="right">“subsetOperators”: [</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
+<pre><code>{
+  &quot;name&quot;: &quot;Age 18 to 64&quot;,
+  &quot;subsetType&quot;: &quot;DemographicSubsetOperator&quot;,
+  &quot;ageMin&quot;: 18,
+  &quot;ageMax&quot;: 64
+}
+</code></pre>
+<p>],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                                                                                                   |
+|               2001|Diclofenac - age 18 to 64 Age 18 to 64                                                                    |NA          |            2|       NA|                  1|{
+“name”: “age 18 to 64”,
+“definitionId”: 1,
+“subsetOperators”: [
+{
+“name”: “Age 18 to 64”,
+“subsetType”: “DemographicSubsetOperator”,
+“ageMin”: 18,
+“ageMax”: 64
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                                                                                                   |
+|               1002|Celecoxib - first event with 365 prior obs first event with 365 prior obs                                 |NA          |            1|       NA|                  2|{
+“name”: “first event with 365 prior obs”,
+“definitionId”: 2,
+“subsetOperators”: [
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                               |
+|               2002|Diclofenac - first event with 365 prior obs first event with 365 prior obs                                |NA          |            2|       NA|                  2|{
+“name”: “first event with 365 prior obs”,
+“definitionId”: 2,
+“subsetOperators”: [
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                               |
+|               1003|Celecoxib - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs  |NA          |            1|       NA|                  3|{
+“name”: “age 18 to 64 and first event with 365 prior obs”,
+“definitionId”: 3,
+“subsetOperators”: [
+{
+“name”: “Age 18 to 64”,
+“subsetType”: “DemographicSubsetOperator”,
+“ageMin”: 18,
+“ageMax”: 64
+},
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+} |
+|               2003|Diclofenac - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs |NA          |            2|       NA|                  3|{
+“name”: “age 18 to 64 and first event with 365 prior obs”,
+“definitionId”: 3,
+“subsetOperators”: [
+{
+“name”: “Age 18 to 64”,
+“subsetType”: “DemographicSubsetOperator”,
+“ageMin”: 18,
+“ageMax”: 64
+},
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+} |</p>
 <p>You can process the cohorts definitions to extract the parent cohorts and the children for each parent cohort.</p>
 <pre><code class="language-r">if(nrow(cohorts) &gt; 0){
 processedCohorts &lt;- processCohorts(cohorts)
@@ -269,6 +370,7 @@ knitr::kable(
 <th align="right">subsetParent</th>
 <th align="right">isSubset</th>
 <th align="right">subsetDefinitionId</th>
+<th align="left">subsetDefinitionJson</th>
 </tr>
 </thead>
 <tbody>
@@ -279,6 +381,7 @@ knitr::kable(
 <td align="right">1</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
+<td align="left">NA</td>
 </tr>
 <tr>
 <td align="right">1001</td>
@@ -287,25 +390,90 @@ knitr::kable(
 <td align="right">1</td>
 <td align="right">NA</td>
 <td align="right">1</td>
+<td align="left">{</td>
 </tr>
 <tr>
-<td align="right">1002</td>
-<td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">2</td>
+<td align="right">“name”: “age 18 to 64”,</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="right">1003</td>
-<td align="left">Celecoxib - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs</td>
-<td align="left">NA</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">3</td>
+<td align="right">“definitionId”: 1,</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right">“subsetOperators”: [</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
+<pre><code>{
+  &quot;name&quot;: &quot;Age 18 to 64&quot;,
+  &quot;subsetType&quot;: &quot;DemographicSubsetOperator&quot;,
+  &quot;ageMin&quot;: 18,
+  &quot;ageMax&quot;: 64
+}
+</code></pre>
+<p>],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                                                                                                   |
+|               1002|Celecoxib - first event with 365 prior obs first event with 365 prior obs                                |NA          |            1|       NA|                  2|{
+“name”: “first event with 365 prior obs”,
+“definitionId”: 2,
+“subsetOperators”: [
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+}                                                                                                                                               |
+|               1003|Celecoxib - age 18 to 64 and first event with 365 prior obs Age 18 to 64, first event with 365 prior obs |NA          |            1|       NA|                  3|{
+“name”: “age 18 to 64 and first event with 365 prior obs”,
+“definitionId”: 3,
+“subsetOperators”: [
+{
+“name”: “Age 18 to 64”,
+“subsetType”: “DemographicSubsetOperator”,
+“ageMin”: 18,
+“ageMax”: 64
+},
+{
+“name”: “first event with 365 prior obs”,
+“subsetType”: “LimitSubsetOperator”,
+“priorTime”: 365,
+“followUpTime”: 0,
+“limitTo”: “firstEver”
+}
+],
+“packageVersion”: “0.11.2”,
+“identifierExpression”: “targetId * 1000 + definitionId”,
+“operatorNameConcatString”: “, “,
+“subsetCohortNameTemplate”: “@baseCohortName - @subsetDefinitionName @operatorNames”
+} |</p>
 <p>For example, if you created a cohort corresponding to all patients exposed to drug A with an id of 1 and then created ‘children’ subset cohorts corresponding to patients exposed to drug A for indication X with an id 1001 and patients exposed to drug A aged 60+ with a cohort id 1002, then <code>getCohortDefinition()</code> would extract all three of these cohorts and <code>processCohorts()</code> would identify cohort 1 as the parent and cohorts 1,1001,1002 as the children/subset of cohort 1.</p>
 <p>You can also extract the subset logic for a subset id:</p>
 <pre><code class="language-r">subsets &lt;- getCohortSubsetDefinitions(
@@ -417,6 +585,7 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="left">targetName</th>
 <th align="right">targetId</th>
 <th align="left">outcomeName</th>
@@ -431,6 +600,7 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -443,6 +613,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -455,6 +626,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Diclofenac</td>
 <td align="right">2</td>
 <td align="left">GI bleed</td>
@@ -467,6 +639,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Diclofenac</td>
 <td align="right">2</td>
 <td align="left">GI bleed</td>
@@ -479,6 +652,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib - age 18 to 64 Age 18 to 64</td>
 <td align="right">1001</td>
 <td align="left">GI bleed</td>
@@ -491,6 +665,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib - age 18 to 64 Age 18 to 64</td>
 <td align="right">1001</td>
 <td align="left">GI bleed</td>
@@ -503,6 +678,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Diclofenac - age 18 to 64 Age 18 to 64</td>
 <td align="right">2001</td>
 <td align="left">GI bleed</td>
@@ -515,6 +691,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Diclofenac - age 18 to 64 Age 18 to 64</td>
 <td align="right">2001</td>
 <td align="left">GI bleed</td>
@@ -543,6 +720,7 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="left">targetName</th>
 <th align="right">targetId</th>
 <th align="left">outcomeName</th>
@@ -569,6 +747,7 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -615,10 +794,12 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="left">targetName</th>
 <th align="right">targetId</th>
 <th align="left">outcomeName</th>
 <th align="right">outcomeId</th>
+<th align="left">tar</th>
 <th align="right">cleanWindow</th>
 <th align="left">subgroupName</th>
 <th align="left">ageGroupName</th>
@@ -643,10 +824,12 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
 <td align="right">3</td>
+<td align="left">( start + 0 ) - ( end + 0 )</td>
 <td align="right">9999</td>
 <td align="left">All</td>
 <td align="left">Any</td>
@@ -669,10 +852,12 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
 <td align="right">3</td>
+<td align="left">( start + 0 ) - ( start + 365 )</td>
 <td align="right">9999</td>
 <td align="left">All</td>
 <td align="left">Any</td>
@@ -713,6 +898,7 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="left">targetName</th>
 <th align="right">targetCohortId</th>
 <th align="left">outcomeName</th>
@@ -736,6 +922,7 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -757,6 +944,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -778,6 +966,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -799,6 +988,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="left">GI bleed</td>
@@ -838,6 +1028,7 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="left">targetName</th>
 <th align="right">targetCohortId</th>
 <th align="right">minPriorObservation</th>
@@ -877,6 +1068,7 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="right">365</td>
@@ -914,6 +1106,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="right">365</td>
@@ -951,6 +1144,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="right">365</td>
@@ -988,6 +1182,7 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="right">365</td>
@@ -1025,40 +1220,41 @@ knitr::kable(
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="left">Celecoxib</td>
 <td align="right">1</td>
 <td align="right">365</td>
 <td align="left">visit_occurrence concept count during day -365 through 0 concept_count relative to index: Inpatient Visit</td>
 <td align="right">9201923</td>
 <td align="right">-5</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.000</td>
+<td align="right">0.000000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">GI bleed</td>
+<td align="right">3</td>
+<td align="right">365</td>
+<td align="right">1</td>
+<td align="right">365</td>
+<td align="left">cohort start</td>
+<td align="left">cohort end</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.00000</td>
+<td align="right">0.000000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">NaN</td>
+<td align="right">NaN</td>
 </tr>
 </tbody>
 </table>
@@ -1080,9 +1276,7 @@ knitr::kable(
       &quot;developmentTargetName&quot;,
       &quot;developmentOutcomeId&quot;,	
       &quot;developmentOutcomeName&quot;,	
-      &quot;timeAtRisk&quot;,
-      &quot;meanAuroc&quot;, 
-      &quot;noDevelopmentDatabases&quot;
+      &quot;timeAtRisk&quot;
     ), 
   caption = 'Example model designs for the prediction results.'
   )
@@ -1098,8 +1292,6 @@ knitr::kable(
 <th align="right">developmentOutcomeId</th>
 <th align="left">developmentOutcomeName</th>
 <th align="left">timeAtRisk</th>
-<th align="right">meanAuroc</th>
-<th align="right">noDevelopmentDatabases</th>
 </tr>
 </thead>
 <tbody>
@@ -1110,14 +1302,12 @@ knitr::kable(
 <td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
 <td align="right">3</td>
 <td align="left">GI bleed</td>
-<td align="left">( cohort start+1 ) - ( cohort start+365 )</td>
-<td align="right">0.6885703</td>
-<td align="right">1</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
 </tr>
 </tbody>
 </table>
 <p>Once you know the modelDesignId of interest, you can then extract the model performance:</p>
-<pre><code class="language-r">perform &lt;- getPredictionPerformances(
+<pre><code class="language-r">perform &lt;- getFullPredictionPerformances(
     connectionHandler = ConnectionHandler,
     schema = 'main', 
     modelDesignId = 1
@@ -1134,60 +1324,176 @@ knitr::kable(
 <tr>
 <th align="right">performanceId</th>
 <th align="right">modelDesignId</th>
+<th align="left">timeStamp</th>
+<th align="left">modelType</th>
+<th align="left">covariateName</th>
 <th align="right">developmentDatabaseId</th>
 <th align="right">validationDatabaseId</th>
 <th align="right">developmentTargetId</th>
 <th align="left">developmentTargetName</th>
+<th align="right">validationTargetId</th>
+<th align="left">validationTargetName</th>
 <th align="right">developmentOutcomeId</th>
 <th align="left">developmentOutcomeName</th>
+<th align="right">validationOutcomeId</th>
+<th align="left">validationOutcomeName</th>
 <th align="left">developmentDatabase</th>
 <th align="left">validationDatabase</th>
-<th align="left">validationTargetName</th>
-<th align="left">validationOutcomeName</th>
-<th align="left">timeStamp</th>
-<th align="right">auroc</th>
-<th align="right">auroc95lb</th>
-<th align="right">auroc95ub</th>
-<th align="right">calibrationInLarge</th>
-<th align="right">eStatistic</th>
-<th align="right">brierScore</th>
-<th align="right">auprc</th>
+<th align="right">validationTarId</th>
+<th align="right">developmentTarId</th>
+<th align="left">validationTimeAtRisk</th>
+<th align="left">developmentTimeAtRisk</th>
+<th align="left">evaluation</th>
 <th align="right">populationSize</th>
 <th align="right">outcomeCount</th>
-<th align="right">evalPercent</th>
-<th align="right">outcomePercent</th>
-<th align="left">validationTimeAtRisk</th>
-<th align="left">predictionResultType</th>
+<th align="right">AUROC</th>
+<th align="right">95% lower AUROC</th>
+<th align="right">95% upper AUROC</th>
+<th align="right">AUPRC</th>
+<th align="right">brier score</th>
+<th align="right">brier score scaled</th>
+<th align="right">Eavg</th>
+<th align="right">E90</th>
+<th align="right">Emax</th>
+<th align="right">calibrationInLarge mean prediction</th>
+<th align="right">calibrationInLarge observed risk</th>
+<th align="right">calibrationInLarge intercept</th>
+<th align="right">weak calibration intercept</th>
+<th align="right">weak calibration gradient</th>
+<th align="right">Hosmer-Lemeshow calibration intercept</th>
+<th align="right">Hosmer-Lemeshow calibration gradient</th>
+<th align="right">Average Precision</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="right">1</td>
 <td align="right">1</td>
+<td align="left">2025-02-13</td>
+<td align="left">logistic</td>
+<td align="left">getDbDefaultCovariateData (29 types) inc age and sex</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">1002</td>
 <td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
+<td align="right">1002</td>
+<td align="left">-</td>
 <td align="right">3</td>
 <td align="left">GI bleed</td>
+<td align="right">3</td>
+<td align="left">-</td>
 <td align="left">Synthea</td>
-<td align="left">Synthea</td>
-<td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
-<td align="left">GI bleed</td>
-<td align="left">2025-02-13</td>
+<td align="left">-</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">Test</td>
+<td align="right">449</td>
+<td align="right">88</td>
 <td align="right">0.6885703</td>
 <td align="right">0.6264985</td>
 <td align="right">0.7506421</td>
-<td align="right">0.0976443</td>
-<td align="right">0.0318938</td>
-<td align="right">0.0720927</td>
 <td align="right">0.3085693</td>
-<td align="right">1800</td>
-<td align="right">355</td>
-<td align="right">24.94444</td>
-<td align="right">19.72222</td>
-<td align="left">( cohort start+1 ) - ( cohort start+365 )</td>
-<td align="left">Development</td>
+<td align="right">0.1469204</td>
+<td align="right">0.0720927</td>
+<td align="right">0.0318938</td>
+<td align="right">0.0650422</td>
+<td align="right">0.1390867</td>
+<td align="right">0.1972381</td>
+<td align="right">0.1959911</td>
+<td align="right">0.0976443</td>
+<td align="right">0.0976443</td>
+<td align="right">1.081961</td>
+<td align="right">0.0150102</td>
+<td align="right">0.9957815</td>
+<td align="right">0.3141461</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">2025-02-13</td>
+<td align="left">logistic</td>
+<td align="left">getDbDefaultCovariateData (29 types) inc age and sex</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1002</td>
+<td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
+<td align="right">1002</td>
+<td align="left">-</td>
+<td align="right">3</td>
+<td align="left">GI bleed</td>
+<td align="right">3</td>
+<td align="left">-</td>
+<td align="left">Synthea</td>
+<td align="left">-</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">Train</td>
+<td align="right">1351</td>
+<td align="right">267</td>
+<td align="right">0.7091712</td>
+<td align="right">0.6750978</td>
+<td align="right">0.7432446</td>
+<td align="right">0.3665755</td>
+<td align="right">0.1451619</td>
+<td align="right">0.0845800</td>
+<td align="right">0.0211919</td>
+<td align="right">0.0365588</td>
+<td align="right">0.0525081</td>
+<td align="right">0.1976328</td>
+<td align="right">0.1976314</td>
+<td align="right">0.2335147</td>
+<td align="right">0.2335147</td>
+<td align="right">1.181563</td>
+<td align="right">-0.0358802</td>
+<td align="right">1.1620115</td>
+<td align="right">0.3702857</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">2025-02-13</td>
+<td align="left">logistic</td>
+<td align="left">getDbDefaultCovariateData (29 types) inc age and sex</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1002</td>
+<td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
+<td align="right">1002</td>
+<td align="left">-</td>
+<td align="right">3</td>
+<td align="left">GI bleed</td>
+<td align="right">3</td>
+<td align="left">-</td>
+<td align="left">Synthea</td>
+<td align="left">-</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">(cohort start + 1) - (cohort start + 365)</td>
+<td align="left">CV</td>
+<td align="right">1351</td>
+<td align="right">267</td>
+<td align="right">0.6818760</td>
+<td align="right">0.6457077</td>
+<td align="right">0.7180443</td>
+<td align="right">0.3151896</td>
+<td align="right">0.1490119</td>
+<td align="right">0.0586252</td>
+<td align="right">0.0265908</td>
+<td align="right">0.0447049</td>
+<td align="right">0.2297922</td>
+<td align="right">0.1971663</td>
+<td align="right">0.1976314</td>
+<td align="right">0.0905528</td>
+<td align="right">0.0905528</td>
+<td align="right">1.066780</td>
+<td align="right">-0.0116256</td>
+<td align="right">1.0545190</td>
+<td align="right">0.3196781</td>
 </tr>
 </tbody>
 </table>
@@ -1367,6 +1673,14 @@ knitr::kable(
 <table>
 <thead>
 <tr>
+<th align="right">modelDesignId</th>
+<th align="right">developmentDatabaseId</th>
+<th align="left">developmentDatabaseName</th>
+<th align="right">validationDatabaseId</th>
+<th align="left">validationDatabaseName</th>
+<th align="right">targetId</th>
+<th align="right">outcomeId</th>
+<th align="right">tarId</th>
 <th align="right">performanceId</th>
 <th align="right">outcomeId</th>
 <th align="left">description</th>
@@ -1378,6 +1692,14 @@ knitr::kable(
 <tbody>
 <tr>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">3</td>
 <td align="left">Original cohorts</td>
 <td align="right">1800</td>
@@ -1385,6 +1707,14 @@ knitr::kable(
 <td align="right">355</td>
 </tr>
 <tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">3</td>
 <td align="left">Initial plpData cohort or population</td>
@@ -1394,6 +1724,14 @@ knitr::kable(
 </tr>
 <tr>
 <td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="right">3</td>
 <td align="left">No prior outcome</td>
 <td align="right">1800</td>
@@ -1401,6 +1739,14 @@ knitr::kable(
 <td align="right">355</td>
 </tr>
 <tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="left">Synthea</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">1</td>
 <td align="right">1</td>
 <td align="right">3</td>
 <td align="left">Removing non-outcome subjects with insufficient time at risk (if any)</td>
@@ -1431,6 +1777,7 @@ knitr::kable(
 <thead>
 <tr>
 <th align="left">databaseName</th>
+<th align="left">databaseId</th>
 <th align="right">analysisId</th>
 <th align="left">description</th>
 <th align="left">targetName</th>
@@ -1452,12 +1799,15 @@ knitr::kable(
 <th align="right">comparatorDays</th>
 <th align="right">targetOutcomes</th>
 <th align="right">comparatorOutcomes</th>
+<th align="right">unblind</th>
+<th align="right">unblindForEvidenceSynthesis</th>
 <th align="left">targetEstimator</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="right">1</td>
 <td align="left">No matching, simple outcome model</td>
 <td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
@@ -1479,10 +1829,13 @@ knitr::kable(
 <td align="right">261005</td>
 <td align="right">355</td>
 <td align="right">124</td>
+<td align="right">1</td>
+<td align="right">1</td>
 <td align="left">ate</td>
 </tr>
 <tr>
 <td align="left">Synthea</td>
+<td align="left">388020256</td>
 <td align="right">2</td>
 <td align="left">Matching on ps and covariates, simple outcomeModel</td>
 <td align="left">Celecoxib - first event with 365 prior obs first event with 365 prior obs</td>
@@ -1504,6 +1857,8 @@ knitr::kable(
 <td align="right">260639</td>
 <td align="right">117</td>
 <td align="right">124</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="left">att</td>
 </tr>
 </tbody>
@@ -1545,6 +1900,7 @@ knitr::kable(
 <th align="right">comparatorDays</th>
 <th align="right">targetOutcomes</th>
 <th align="right">comparatorOutcomes</th>
+<th align="right">unblind</th>
 <th align="right">nDatabases</th>
 </tr>
 </thead>

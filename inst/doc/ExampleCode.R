@@ -155,9 +155,7 @@ knitr::kable(
       "developmentTargetName",
       "developmentOutcomeId",	
       "developmentOutcomeName",	
-      "timeAtRisk",
-      "meanAuroc", 
-      "noDevelopmentDatabases"
+      "timeAtRisk"
     ), 
   caption = 'Example model designs for the prediction results.'
   )
@@ -165,7 +163,7 @@ knitr::kable(
 
 ## ----echo=TRUE----------------------------------------------------------------
 
-perform <- getPredictionPerformances(
+perform <- getFullPredictionPerformances(
     connectionHandler = ConnectionHandler,
     schema = 'main', 
     modelDesignId = 1
