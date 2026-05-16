@@ -240,8 +240,10 @@ knitr::kable(
 plotCmEstimates(
   cmData = cmEst, 
   cmMeta = NULL,
-  targetName = 'Example Target', 
-  comparatorName = 'Example Comp', 
+  cohortNames = data.frame(
+    cohortName = c('Example Target', 'Example Comp'),
+    cohortId= c(1002,2002)
+  ),
   selectedAnalysisId = 1
 )
 
